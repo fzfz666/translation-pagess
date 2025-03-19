@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卓越翻译 - 专业人工级翻译服务 - 超低价</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #ff5252;
+            --accent-color: #34a853;
+            --light-color: #f8f9fa;
+            --dark-color: #333333;
+            --gradient-primary: linear-gradient(135deg, #4285f4, #0d47a1);
+            --gradient-accent: linear-gradient(135deg, #ff5252, #ff1744);
+            --text-color: #333;
+            --light-text: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-color: #fff;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+        }
+        
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .navbar-brand span {
+            color: var(--secondary-color);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-color);
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary-color);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(35, 75, 138, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(35, 75, 138, 0.4);
+        }
+        
+        .btn-accent {
+            background: var(--gradient-accent);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
+            color: white;
+        }
+        
+        .hero {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 150px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTI4MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTEyODAgMTQwVjBTOTkzLjQ2IDE0MCA2NDAgMTM5IDAgMCAwIDB2MTQweiIvPjwvZz48L3N2Zz4=');
+            background-size: 100% 100px;
+            background-position: bottom;
+            background-repeat: no-repeat;
+            z-index: 1;
+            opacity: 0.3;
+        }
+        
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 700px;
+            line-height: 1.8;
+        }
+        
+        .hero-img {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-img img {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: perspective(1000px) rotateY(-10deg);
+            transition: all 0.5s ease;
+        }
+        
+        .hero-img img:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        .section {
+            padding: 120px 0;
+        }
+        
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+            color: var(--primary-color);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 80px;
+            height: 5px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            height: 100%;
+            border-bottom: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(135deg, rgba(35, 75, 138, 0.05), rgba(35, 75, 138, 0.1));
+            transition: height 0.4s ease;
+            z-index: -1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+            border-bottom: 5px solid var(--secondary-color);
+        }
+        
+        .feature-card:hover::before {
+            height: 100%;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            display: inline-block;
+            background: rgba(230, 57, 70, 0.1);
+            width: 90px;
+            height: 90px;
+            line-height: 90px;
+            text-align: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            background: var(--secondary-color);
+            color: white;
+            transform: rotateY(360deg);
+            transition: transform 0.8s ease, background 0.3s ease, color 0.3s ease;
+        }
+        
+        .feature-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .feature-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+        
+        /* 翻译对比部分的样式 */
+        .comparison-section {
+            background-color: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comparison-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(35, 75, 138, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 80% 50%, rgba(230, 57, 70, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 40% 80%, rgba(35, 75, 138, 0.05) 0%, transparent 20%);
+            opacity: 0.8;
+        }
+        
+        .comparison-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+            background-color: white;
+            overflow: hidden;
+        }
+        
+        .comparison-header {
+            padding: 30px;
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .comparison-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .comparison-desc {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .original-text {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #eee;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .translation-container {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .translation-slider {
+            display: flex;
+            width: 200%;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .translation-panel {
+            width: 50%;
+            padding: 30px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            overflow-y: auto;
+            height: 100%;
+        }
+        
+        .translation-panel-1 {
+            background-color: #fff;
+            border-right: 1px solid #eee;
+        }
+        
+        .translation-panel-2 {
+            background-color: #fff;
+        }
+        
+        .panel-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .panel-title.title-1 {
+            color: #888;
+        }
+        
+        .panel-title.title-2 {
+            color: var(--secondary-color);
+        }
+        
+        .translation-highlight {
+            background-color: rgba(230, 57, 70, 0.1);
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        .comparison-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 2px solid #eee;
+        }
+        
+        .ctrl-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .ctrl-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .ctrl-btn.active {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        
+        /* 流程步骤 */
+        .process-section {
+            background-color: #fff;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(66, 133, 244, 0.03) 0%, transparent 15%),
+                radial-gradient(circle at 90% 50%, rgba(255, 82, 82, 0.03) 0%, transparent 15%),
+                radial-gradient(circle at 30% 90%, rgba(66, 133, 244, 0.03) 0%, transparent 15%);
+        }
+        
+        .process-container {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        .process-line {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 4px;
+            background: #f0f0f0;
+            z-index: 1;
+        }
+        
+        .process-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .step-icon {
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            border-radius: 50%;
+            background: white;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .process-step:hover .step-icon {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            background: var(--secondary-color);
+        }
+        
+        .process-step h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .process-step p {
+            font-size: 1rem;
+            color: #666;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+        
+        /* 服务特色 */
+        .services-section {
+            background: linear-gradient(135deg, #4285f4, #0d47a1);
+            color: white;
+            position: relative;
+        }
+        
+        .services-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTI4MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTAgMHYxNDBoMTI4MFYweiIvPjwvZz48L3N2Zz4=');
+            background-size: 100% 100px;
+            background-position: top;
+            background-repeat: no-repeat;
+            transform: rotateX(180deg);
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            background: var(--secondary-color);
+            transform: rotateY(360deg);
+            transition: transform 0.8s ease, background 0.3s ease;
+        }
+        
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .service-text {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* 客户评价 */
+        .testimonial-section {
+            background-color: #f8f9fa;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(66, 133, 244, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 80% 50%, rgba(255, 82, 82, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 40% 80%, rgba(66, 133, 244, 0.03) 0%, transparent 20%);
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .testimonial-card::before {
+            content: '\201C';
+            font-size: 6rem;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            color: rgba(230, 57, 70, 0.1);
+            font-family: serif;
+        }
+        
+        .testimonial-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: #555;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .testimonial-info h5 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .testimonial-info p {
+            margin: 5px 0 0;
+            color: #888;
+            font-size: 0.95rem;
+        }
+        
+        /* 联系部分 */
+        .contact-section {
+            position: relative;
+            background: white;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(66, 133, 244, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 50%, rgba(255, 82, 82, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 30% 90%, rgba(66, 133, 244, 0.03) 0%, transparent 20%);
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 82, 82, 0.1) 0%, transparent 70%);
+            border-radius: 0 0 0 100%;
+            z-index: -1;
+        }
+        
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(66, 133, 244, 0.1) 0%, transparent 70%);
+            border-radius: 0 100% 0 0;
+            z-index: -1;
+        }
+        
+        .contact-info h4 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .contact-info h4::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(66, 133, 244, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover .contact-icon {
+            background: var(--primary-color);
+            color: white;
+            transform: rotateY(360deg);
+            transition: transform 0.8s ease, background 0.3s ease, color 0.3s ease;
+        }
+        
+        .contact-text h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .contact-text p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .wechat-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .wechat-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+        
+        .wechat-qr {
+            max-width: 220px;
+            margin: 0 auto 20px;
+            display: block;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 5px solid white;
+            transition: all 0.3s ease;
+        }
+        
+        .wechat-qr:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .wechat-id {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: #2d3748;
+            color: white;
+            padding: 80px 0 30px;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTI4MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTAgMHYxNDBoMTI4MFYweiIvPjwvZz48L3N2Zz4=');
+            background-size: 100% 50px;
+            background-position: top;
+            background-repeat: no-repeat;
+            transform: rotateX(180deg);
+        }
+        
+        .footer-logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: white;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary-color);
+        }
+        
+        .footer-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
+        
+        .footer-links h5 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+            color: white;
+        }
+        
+        .footer-links h5::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .footer-links a::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-links a:hover::before {
+            transform: translateX(3px);
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 25px;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            margin-top: 60px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-img {
+                margin-top: 50px;
+            }
+            
+            .section {
+                padding: 100px 0;
+            }
+            
+            .contact-card {
+                padding: 30px;
+            }
+            
+            .process-line {
+                display: none;
+            }
+            
+            .process-step {
+                margin-bottom: 50px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .translation-container {
+                height: 500px;
+            }
+            
+            .comparison-container {
+                margin: 0 15px;
+            }
+            
+            .process-step {
+                margin-bottom: 40px;
+            }
+            
+            .footer {
+                padding: 60px 0 30px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 120px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .translation-container {
+                height: 550px;
+            }
+            
+            .testimonial-card {
+                padding: 25px;
+            }
+        }
+        
+        /* 动画效果 */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* 加载动画 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+        
+        .loading-spinner:before,
+        .loading-spinner:after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            animation: pulse-ring 1.5s infinite ease-in-out;
+        }
+        
+        .loading-spinner:before {
+            width: 100%;
+            height: 100%;
+            animation-delay: 0.5s;
+        }
+        
+        .loading-spinner:after {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            background: var(--primary-color);
+            animation-delay: 0.75s;
+        }
+        
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.8;
+            }
+            80%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        /* 新的翻译对比样式 - 根据图片修改 */
+        .translation-comparison {
+            padding: 0;
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .comparison-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .comparison-title {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .comparison-desc {
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        
+        /* 原文部分 */
+        .original-section {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            border: 1px solid #eee;
+        }
+        
+        .original-title {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .original-content {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            max-height: 200px;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .original-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .original-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .original-content::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 10px;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #666;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .scroll-indicator i {
+            margin-left: 5px;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        /* 翻译部分 */
+        .translations-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .translation-column {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .translation-column.human-column {
+            flex: 1.2;
+        }
+        
+        .translation-box {
+            background-color: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+        
+        .translation-box.human-translation {
+            box-shadow: 0 5px 20px rgba(255, 82, 82, 0.15);
+            border: 1px solid rgba(255, 82, 82, 0.2);
+            position: relative;
+        }
+        
+        .translation-box.human-translation::before {
+            content: '推荐';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .translation-header {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .machine-translation .translation-header {
+            color: #666;
+        }
+        
+        .human-translation .translation-header {
+            color: var(--secondary-color);
+            background-color: rgba(255, 82, 82, 0.05);
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .translation-content {
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #fff;
+        }
+        
+        /* 句子样式 */
+        .sentence {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #fff;
+            border: 1px solid #eee;
+        }
+        
+        .sentence:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sentence.active {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .sentence-content {
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .sentence-number {
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: #f0f0f0;
+            color: #666;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .sentence.active .sentence-number {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 40%, #ffcc00 40%);
+            padding: 0 2px;
+        }
+        
+        .translation-result {
+            line-height: 1.8;
+        }
+        
+        .human-translation .translation-result {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .machine-translation .translation-result {
+            color: #666;
+        }
+        
+        .comparison-footer {
+            padding: 15px;
+            background: #f8f9fa;
+            text-align: center;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .translations-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载动画 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">超棒<span>翻译</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#comparison">翻译对比</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#process">翻译流程</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">服务特色</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">客户评价</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">联系我们</a>
+                    </li>
+                </ul>
+                <a href="#contact" class="btn btn-accent ms-lg-3">立即咨询</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页英雄区 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                    <h1>专业人工级翻译<br>精准传递每一份价值</h1>
+                    <p>超低价！1元一页！我们提供高品质的人工级翻译服务，多轮审核与润色，确保翻译精准、流畅，帮助您轻松突破语言障碍，实现全球沟通。</p>
+                    <div class="d-flex">
+                        <a href="#comparison" class="btn btn-light btn-lg me-3">
+                            <i class="fas fa-exchange-alt me-2"></i>对比效果
+                        </a>
+                        <a href="#contact" class="btn btn-accent btn-lg">
+                            <i class="fas fa-headset me-2"></i>联系我们
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="hero-img floating">
+                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="专业翻译服务" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 翻译对比部分 -->
+    <section class="section comparison-section" id="comparison">
+        <div class="comparison-bg"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center" data-aos="fade-up">
+                    <h2 class="section-title">翻译质量对比</h2>
+                    <p class="lead mb-5">亲身体验人工专业翻译与机器翻译的显著差异</p>
+                </div>
+            </div>
+            
+            <div class="comparison-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="translation-comparison">
+                    <div class="comparison-header">
+                        <h3 class="comparison-title">学术论文摘要翻译对比</h3>
+                        <p class="comparison-desc">点击原文中的任意句子，查看不同翻译效果</p>
+                    </div>
+                    
+                    <div class="p-4">
+                        <!-- 原文部分 -->
+                        <div class="original-section">
+                            <h4 class="original-title">原文</h4>
+                            <div class="original-content">
+                                <div class="sentence" data-index="1">
+                                    <div class="sentence-content">
+                                        <span class="sentence-number">1</span>
+                                        The 1980s was an era full of vitality and creativity, and the toys produced by the Shanghai Toy Factory embody the unique style and memories of that period.
+                                    </div>
+                                </div>
+                                <div class="sentence" data-index="2">
+                                    <div class="sentence-content">
+                                        <span class="sentence-number">2</span>
+                                        These toys were not only companions for children, but also carriers of the cultural essence of the time.
+                                    </div>
+                                </div>
+                                <div class="sentence" data-index="3">
+                                    <div class="sentence-content">
+                                        <span class="sentence-number">3</span>
+                                        Using nostalgic toys from the Shanghai Toy Factory in the 1980s as a starting point, this work aims to extract, analyze, and redesign the elements of these toys, with the goal of exploring a new design field filled with childlike wonder and memories.
+                                    </div>
+                                </div>
+                                <div class="sentence" data-index="4">
+                                    <div class="sentence-content">
+                                        <span class="sentence-number">4</span>
+                                        It delves into the application value, forms of expression, and development trends of toy elements in jewelry design.
+                                    </div>
+                                </div>
+                                <div class="sentence" data-index="5">
+                                    <div class="sentence-content">
+                                        <span class="sentence-number">5</span>
+                                        From shape design to color application, as well as from material selection to craftsmanship techniques, the project explores the effective integration and potential connections between the toy elements of the 1980s Shanghai Toy Factory and contemporary jewelry design.
+                                    </div>
+                                </div>
+                                <div class="scroll-indicator">
+                                    <span>滑动查看更多</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 翻译部分 -->
+                        <div class="translations-row">
+                            <!-- 人工翻译 -->
+                            <div class="translation-column human-column">
+                                <div class="translation-box human-translation">
+                                    <div class="translation-header">卓越人工翻译</div>
+                                    <div class="translation-content" id="human-translation-content">
+                                        <div class="translation-placeholder text-center text-muted">
+                                            <i class="fas fa-arrow-up fa-2x mb-3"></i>
+                                            <p>请点击上方原文查看人工翻译结果</p>
+                                        </div>
+                                        
+                                        <div class="translation-result" data-index="1" style="display: none;">
+                                            1980年代是一个充满<span class="highlight">生机与创造力</span>的历史时期，上海玩具厂生产的玩具承载着那个时代<span class="highlight">独特的文化精髓与社会记忆</span>。
+                                        </div>
+                                        <div class="translation-result" data-index="2" style="display: none;">
+                                            这些玩具不仅是儿童的<span class="highlight">成长伴侣</span>，更是特定时期<span class="highlight">文化特征的物质载体</span>。
+                                        </div>
+                                        <div class="translation-result" data-index="3" style="display: none;">
+                                            本研究以1980年代上海玩具厂的<span class="highlight">经典玩具</span>为切入点，通过分析其造型、色彩、材质等特征，提炼设计元素进行再创作，探索玩具元素在当代珠宝设计中的<span class="highlight">创新应用路径、表现形式与发展趋势</span>。
+                                        </div>
+                                        <div class="translation-result" data-index="4" style="display: none;">
+                                            研究<span class="highlight">深入探讨</span>了玩具元素在珠宝设计领域的应用价值、<span class="highlight">表现语言</span>及未来发展方向。
+                                        </div>
+                                        <div class="translation-result" data-index="5" style="display: none;">
+                                            从<span class="highlight">造型构成</span>到<span class="highlight">色彩语言</span>，从<span class="highlight">材质选择</span>到<span class="highlight">工艺技法</span>，项目<span class="highlight">系统性</span>地探究了1980年代上海玩具厂玩具元素与当代珠宝设计的<span class="highlight">有机融合与创新可能</span>。
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 机器翻译 -->
+                            <div class="translation-column">
+                                <div class="translation-box machine-translation">
+                                    <div class="translation-header">普通机器翻译</div>
+                                    <div class="translation-content" id="machine-translation-content">
+                                        <div class="translation-placeholder text-center text-muted">
+                                            <i class="fas fa-arrow-up fa-2x mb-3"></i>
+                                            <p>请点击上方原文查看机器翻译结果</p>
+                                        </div>
+                                        
+                                        <div class="translation-result" data-index="1" style="display: none;">
+                                            上世纪 80 年代是一个充满活力和创造力的时代，上海玩具厂生产的玩具体现了那个时代独特的风格和记忆。
+                                        </div>
+                                        <div class="translation-result" data-index="2" style="display: none;">
+                                            这些玩具不仅是孩子们的玩具，也是当时文化精髓的载体。
+                                        </div>
+                                        <div class="translation-result" data-index="3" style="display: none;">
+                                            以上世纪八十年代上海玩具厂的怀旧玩具为出发点，对这些玩具的元素进行提取、分析和重新设计，目的是探索一个充满童趣和回忆的新设计领域。
+                                        </div>
+                                        <div class="translation-result" data-index="4" style="display: none;">
+                                            探讨了玩具元素在首饰设计中的应用价值、表现形式及发展趋势。
+                                        </div>
+                                        <div class="translation-result" data-index="5" style="display: none;">
+                                            从造型设计到色彩运用，以及从材料选择到工艺技术，该项目探索了 20 世纪 80 年代上海玩具厂玩具元素与当代珠宝设计之间的有效整合和潜在联系。
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-footer">
+                        <p class="mb-0">卓越翻译 - 专业人工翻译服务，精准传递每一份价值</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 翻译流程 -->
+    <section class="section process-section" id="process">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">严格把控各个翻译环节</h2>
+                    <p class="lead">我们的专业翻译流程确保每一份作品的卓越品质</p>
+                </div>
+            </div>
+            
+            <div class="process-container">
+                <div class="process-line" data-aos="fade-right" data-aos-delay="500"></div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="process-step">
+                            <div class="step-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h4>VIP客服沟通</h4>
+                            <p>了解翻译领域用途、期望时间等需求</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="process-step">
+                            <div class="step-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h4>译前预处理</h4>
+                            <p>分析文件，确定翻译风格和项目标准，制定术语表等</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class="process-step">
+                            <div class="step-icon">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <h4>专业翻译</h4>
+                            <p>根据订单领域，由选定专家进行翻译</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                        <div class="process-step">
+                            <div class="step-icon">
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                            <h4>多重审校</h4>
+                            <p>多重审校确保译文准确、专业、流畅</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                        <div class="process-step">
+                            <div class="step-icon">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <h4>专业润色</h4>
+                            <p>根据目标语言国家的市场文化特点等，对译文进行润色</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
+                        <div class="process-step">
+                            <div class="step-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <h4>质检</h4>
+                            <p>对稿件的方方面面进行审查，确保高质量交付</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="700">
+                        <div class="process-step">
+                            <div class="step-icon">
+                                <i class="fas fa-file-export"></i>
+                            </div>
+                            <h4>排版</h4>
+                            <p>责任编辑根据客户需求对译文进行精细排版</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="800">
+                        <div class="process-step">
+                            <div class="step-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4>订单评价</h4>
+                            <p>客户对本次服务进行评价，项目经理跟踪反馈</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务特色 -->
+    <section class="section services-section" id="services">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title text-white">我们的服务特色</h2>
+                    <p class="lead text-white opacity-90">卓越翻译服务，多重优势保障</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-file-image"></i>
+                        </div>
+                        <h3 class="service-title">图片完美保留</h3>
+                        <p class="service-text">精确保留原文档中的所有图片和图表，确保翻译后文档的布局与原文保持一致</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-table"></i>
+                        </div>
+                        <h3 class="service-title">表格精准还原</h3>
+                        <p class="service-text">专业处理各类复杂表格，保持原有格式和结构，确保数据清晰易读</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-square-root-alt"></i>
+                        </div>
+                        <h3 class="service-title">公式准确转换</h3>
+                        <p class="service-text">精确保留和处理各类数学公式、化学方程式和专业符号，确保学术严谨性</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="service-title">原生级阅读体验</h3>
+                        <p class="service-text">翻译结果如同原生创作，流畅自然，符合目标语言的表达习惯和阅读习惯</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3 class="service-title">多种文档格式支持</h3>
+                        <p class="service-text">支持PDF、Word、Markdown等多种格式文档，输出格式与原文一致，无缝衔接您的工作流</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3 class="service-title">专家团队协作</h3>
+                        <p class="service-text">由资深专业领域翻译专家、审校专家和排版专家组成的团队协作，确保翻译质量</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section class="section testimonial-section" id="testimonials">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">客户评价</h2>
+                    <p class="lead">听听我们的客户怎么说</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            "我们学院的多篇学术论文都是通过卓越翻译服务完成的英文翻译，他们对学术术语的精准把握和流畅的表达令人印象深刻。正是因为他们的专业翻译，我们的论文顺利发表在了国际顶级期刊上。"
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="客户头像" class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h5>张教授</h5>
+                                <p>某知名大学研究员</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            "作为一家跨国公司，我们需要高质量的技术文档翻译服务。卓越翻译不仅能准确理解复杂的技术概念，还能将它们转化为流畅、专业的目标语言文本。他们的翻译质量和专业度始终如一。"
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="客户头像" class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h5>李总监</h5>
+                                <p>某国际科技企业</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            "多年来一直与卓越翻译合作，他们对我们医学研究论文的翻译质量始终保持高标准。专业术语准确，表达流畅自然，最重要的是，他们理解医学文献的严谨性要求，这在医学翻译领域尤为难得。"
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="客户头像" class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h5>王博士</h5>
+                                <p>医学研究机构</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">联系我们</h2>
+                    <p class="lead">获取专业人工翻译服务，请通过以下方式联系我们</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10" data-aos="fade-up" data-aos-delay="200">
+                    <div class="contact-card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="contact-info">
+                                    <h4>联系方式</h4>
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <div class="contact-text">
+                                            <h5>邮箱</h5>
+                                            <p>top@mindto.top</p>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </div>
+                                        <div class="contact-text">
+                                            <h5>电话</h5>
+                                            <p>+86 123 4567 8910</p>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="contact-text">
+                                            <h5>价格</h5>
+                                            <p>超低价！1元1页！</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <h4 class="wechat-title">微信咨询</h4>
+                                <p>复制微信号，添加我们的客服微信</p>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExcellentTranslation&bgcolor=4285f4&color=ffffff" alt="微信二维码" class="wechat-qr">
+                                <p class="wechat-id">微信号: fz031128</p>
+                                <button class="btn btn-accent" id="copyWechatBtn">
+                                    <i class="fas fa-copy me-2"></i>复制微信号
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5">
+                    <div class="footer-logo">卓越<span>翻译</span></div>
+                    <p class="footer-text">专业人工翻译服务，为您提供高质量的翻译解决方案，让您的文档阅读无障碍，沟通无国界。</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <div class="footer-links">
+                        <h5>快速链接</h5>
+                        <ul>
+                            <li><a href="#home">首页</a></li>
+                            <li><a href="#comparison">翻译对比</a></li>
+                            <li><a href="#process">翻译流程</a></li>
+                            <li><a href="#services">服务特色</a></li>
+                            <li><a href="#testimonials">超低价格</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <div class="footer-links">
+                        <h5>服务项目</h5>
+                        <ul>
+                            <li><a href="#">学术论文翻译</a></li>
+                            <li><a href="#">技术文档翻译</a></li>
+                            <li><a href="#">法律文件翻译</a></li>
+                            <li><a href="#">商业报告翻译</a></li>
+                            <li><a href="#">网站本地化</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <div class="footer-links">
+                        <h5>语言支持</h5>
+                        <ul>
+                            <li><a href="#">中英互译</a></li>
+                            <li><a href="#">中日互译</a></li>
+                            <li><a href="#">中德互译</a></li>
+                            <li><a href="#">中法互译</a></li>
+                            <li><a href="#">更多语种</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 卓越翻译 版权所有 | 专业人工翻译服务</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        // 初始化 AOS 动画库
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // 页面加载完成后隐藏加载动画
+            setTimeout(function() {
+                document.getElementById('loadingOverlay').classList.add('fade-out');
+            }, 500);
+            
+            // 导航栏滚动效果
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.style.padding = '10px 0';
+                    navbar.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.15)';
+                } else {
+                    navbar.style.padding = '15px 0';
+                    navbar.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.1)';
+                }
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 如果在移动设备上，点击导航链接后关闭导航菜单
+                        const navbarToggler = document.querySelector('.navbar-toggler');
+                        const navbarCollapse = document.querySelector('.navbar-collapse');
+                        if (navbarCollapse.classList.contains('show')) {
+                            navbarToggler.click();
+                        }
+                    }
+                });
+            });
+            
+            // 翻译对比交互
+            document.querySelectorAll('.sentence').forEach(sentence => {
+                sentence.addEventListener('click', function() {
+                    // 移除所有句子的活跃状态
+                    document.querySelectorAll('.sentence').forEach(s => {
+                        s.classList.remove('active');
+                    });
+                    
+                    // 获取当前句子的索引
+                    const index = this.getAttribute('data-index');
+                    
+                    // 为当前句子添加活跃状态
+                    this.classList.add('active');
+                    
+                    // 隐藏所有翻译结果
+                    document.querySelectorAll('.translation-result').forEach(result => {
+                        result.style.display = 'none';
+                    });
+                    
+                    // 隐藏占位符
+                    document.querySelectorAll('.translation-placeholder').forEach(placeholder => {
+                        placeholder.style.display = 'none';
+                    });
+                    
+                    // 显示对应的翻译结果
+                    document.querySelector(`#machine-translation-content .translation-result[data-index="${index}"]`).style.display = 'block';
+                    document.querySelector(`#human-translation-content .translation-result[data-index="${index}"]`).style.display = 'block';
+                });
+            });
+            
+            // 监听原文滚动
+            const originalContent = document.querySelector('.original-content');
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            
+            if (originalContent && scrollIndicator) {
+                originalContent.addEventListener('scroll', function() {
+                    const isScrolled = originalContent.scrollTop > 10;
+                    scrollIndicator.style.opacity = isScrolled ? '0' : '1';
+                    scrollIndicator.style.visibility = isScrolled ? 'hidden' : 'visible';
+                });
+            }
+            
+            // 默认选中第一句
+            setTimeout(() => {
+                document.querySelector('.sentence[data-index="1"]').click();
+            }, 1000);
+            
+            // 复制微信号
+            document.getElementById('copyWechatBtn').addEventListener('click', function() {
+                const wechatId = 'ExcellentTrans';
+                
+                // 创建临时输入框
+                const tempInput = document.createElement('input');
+                tempInput.value = wechatId;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                // 更新按钮文本
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check me-2"></i>已复制';
+                
+                // 2秒后恢复原始文本
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
