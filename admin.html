@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文档翻译平台管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body { padding-top: 2rem; }.card { margin-bottom: 1.5rem; }.form-group { margin-bottom: 1rem; }
+        .badge-copy { cursor: pointer; transition: all 0.2s; }
+        .badge-copy:hover { background-color: #0056b3; }</style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>文档翻译平台管理</h1>
+            <div>
+                <a href="/logout" class="btn btn-outline-danger">
+                    <i class="fas fa-sign-out-alt me-1"></i>退出登录
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card"><div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">生成上传链接</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="createLinkForm"><div class="form-group">
+                                <label for="workflowType">工作流程类型</label>
+                                <select id="workflowType" class="form-control"><option value="default">默认工作流程</option>
+                                    <option value="technical">技术文档工作流程</option>
+                                    <option value="legal">法律文档工作流程</option></select>
+                            </div><div class="form-group">
+                                <label for="expiryHours">链接有效期（小时）</label>
+                                <input type="number" id="expiryHours" class="form-control" value="24" min="1" max="72"></div>
+                            <div class="form-group">
+                                <label for="customMessages">自定义消息（JSON格式，可选）</label>
+                                <textarea id="customMessages" class="form-control" rows="4" placeholder='例如：[["第一步消息1","第一步消息2"],["第二步消息1","第二步消息2"]]'></textarea>
+                                <small class="text-muted">格式为二维数组，第一维是步骤，第二维是每个步骤的消息</small>
+                            </div><button type="submit" class="btn btn-primary">
+                                <i class="fas fa-link me-2"></i>生成链接
+                            </button>
+                        </form>
+                        
+                        <div class="mt-3" id="linkResult" style="display: none;">
+                            <div class="alert alert-success"><h6>生成的链接：</h6><div class="input-group"><input type="text" id="generatedLink" class="form-control" readonly><button class="btn btn-outline-secondary" type="button" id="copyLink"><i class="fas fa-copy"></i></button></div>
+                <div class="d-flex justify-content-between mt-2">
+                                    <small>临时ID：<span id="linkId"></span></small>
+                                    <button class="btn btn-sm btn-outline-secondary" id="copyId"><i class="fas fa-copy me-1"></i>复制ID</button>
+                                </div>
+                                <small class="d-block mt-1">到期时间：<span id="linkExpiry"></span></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card"><div class="card-header bg-success text-white"><h5 class="mb-0">模拟文件上传</h5>
+                    </div>
+                    <div class="card-body"><form id="mockUploadForm"><div class="form-group">
+                                <label for="tempId">临时链接ID</label>
+                                <input type="text" id="tempId" class="form-control" placeholder="输入临时链接ID">
+                            </div>
+                            <div class="form-group"><label for="mockFilename">模拟文件名</label><input type="text" id="mockFilename" class="form-control" value="mock_document.docx"></div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-upload me-2"></i>模拟上传
+                            </button>
+                        </form>
+                        <div class="mt-3" id="mockUploadResult" style="display: none;">
+                            <div class="alert alert-success">
+                                <div class="d-flex justify-content-between align-items-center mb-2"><p class="mb-0">文档ID：<span id="mockDocId"></span></p>
+                                    <button class="btn btn-sm btn-outline-secondary" id="copyDocId"><i class="fas fa-copy"></i> 复制ID</button>
+                                </div>
+                                <p class="mb-0"><a href="#" id="processPageLink" target="_blank" class="btn btn-sm btn-outline-primary"><i class="fas fa-external-link-alt me-1"></i>查看处理页面</a>
+                                </p></div>
+                        </div></div>
+                </div>
+
+                <!-- 上传结果文件表单 -->
+                <div class="card mt-4">
+                    <div class="card-header bg-success text-white"><h5 class="mb-0">上传结果文件</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadResultForm">
+                            <div class="form-group"><label for="resultDocId">文档ID</label><input type="text" id="resultDocId" name="doc_id" class="form-control" placeholder="输入文档ID">
+                            </div>
+                            <div class="form-group">
+                                <label for="resultFile">结果文件</label>
+                                <input type="file" id="resultFile" name="file" class="form-control">
+                            </div><button type="submit" class="btn btn-success"><i class="fas fa-upload me-2"></i>上传结果文件
+                            </button>
+                        </form>
+                        <div id="uploadResultMessage" class="alert alert-info mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- 批量删除旧文档表单 -->
+                <div class="card mt-4">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">批量删除</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="deleteOldDocsForm">
+                            <div class="form-group">
+                                <label for="deleteDays">删除多少天前的文档和链接</label>
+                                <input type="number" id="deleteDays" class="form-control" value="3" min="1">
+                            </div>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt me-2"></i>批量删除
+                            </button>
+                        </form>
+                        <div id="deleteOldDocsMessage" class="alert mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info text-white"><h5 class="mb-0">工作流程控制</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="workflowControlForm"><div class="form-group">
+                                <label for="docId">文档ID</label><input type="text" id="docId" class="form-control" placeholder="输入文档ID"><button type="button" class="btn btn-info mt-2" id="queryWorkflowBtn"><i class="fas fa-search me-2"></i>查询工作流程
+                                </button>
+                            </div>
+                            <div id="workflowStatusResult" style="display: none;" class="alert alert-info mt-2">
+                                <h6>工作流程状态：</h6><div id="workflowStatusDetails"></div>
+                            </div><div class="form-group">
+                                <label>操作</label><div class="d-flex gap-2"><button type="button" class="btn btn-warning" id="speedUpBtn"><i class="fas fa-fast-forward me-2"></i>加速流程
+                                    </button><button type="button" class="btn btn-danger" id="completeStepBtn"><i class="fas fa-check-double me-2"></i>完成当前步骤</button>
+                                </div>
+                            </div><div class="form-group mt-3">
+                                <h6>自定义消息</h6><div class="row">
+                                    <div class="col-md-4"><label for="stepIndex">步骤索引</label>
+                                        <input type="number" id="stepIndex" class="form-control" min="0" value="0"></div><div class="col-md-4">
+                                        <label for="messageIndex">消息索引</label>
+                                        <input type="number" id="messageIndex" class="form-control" min="0" value="0">
+                                    </div>
+                                    <div class="col-md-4"><label>&nbsp;</label><button type="button" class="btn btn-primary form-control" id="updateMessageBtn">更新消息</button>
+                                    </div>
+                                </div><div class="form-group mt-2">
+                                    <textarea id="customMessage" class="form-control" rows="2" placeholder="输入新的消息内容"></textarea></div>
+                            </div></form>
+                <div class="mt-3" id="controlResult" style="display: none;"><div class="alert alert-info"><span id="controlMessage"></span>
+                            </div></div>
+                    </div>
+                </div>
+                
+                <div class="card"><div class="card-header bg-secondary text-white"><h5 class="mb-0">活动状态</h5>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <h6>活动文档和链接</h6>
+                            <ul id="activeItems" class="list-group">
+                                <!-- 活动文档和链接将在这里动态生成 -->
+                                <li class="list-group-item text-muted">暂无活动项目</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 全局变量定义
+        let docsList = [];
+
+        // 判断链接是否过期
+        function isExpired(expiryStr) {
+            if (!expiryStr) return false;
+            const expiry = new Date(expiryStr);
+            return expiry < new Date();
+        }
+
+        // 通用的复制到剪贴板函数
+        function copyToClipboard(text, successCallback, errorCallback) {
+            if (!navigator.clipboard) {
+                // 回退到旧方法
+                try {
+                    const tempInput = document.createElement('input');
+                    tempInput.value = text;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    if (successCallback) successCallback();
+                } catch (err) {
+                    console.error('复制失败:', err);
+                    if (errorCallback) errorCallback(err);
+                }
+                return;
+            }
+            
+            // 使用现代API
+            navigator.clipboard.writeText(text).then(() => {
+                if (successCallback) successCallback();
+                })
+                .catch(err => {
+                    console.error('复制失败:', err);
+                    if (errorCallback) errorCallback(err);
+                });
+        }
+        
+        // 添加全局错误处理函数，处理未授权的情况
+        function handleFetchResponse(response) {
+            if (response.redirected && response.url.includes('/login')) {
+                // 被重定向到登录页面
+                window.location.href = response.url;
+                throw new Error('您的会话已过期，请重新登录');
+            }
+            
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    // 未授权或禁止访问
+                    window.location.href = '/login';
+                    throw new Error('您的会话已过期，请重新登录');
+                }
+                throw new Error('请求失败: ' + response.statusText);
+            }
+            
+            return response.json();
+        }
+        
+        // 生成链接表单提交
+        document.getElementById('createLinkForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const workflowType = document.getElementById('workflowType').value;
+            const expiryHours = document.getElementById('expiryHours').value;
+            const customMessagesText = document.getElementById('customMessages').value;
+            
+            // 处理自定义消息
+            let requestData = {
+                workflow_type: workflowType,
+                expiry_hours: parseInt(expiryHours)
+            };
+            if (customMessagesText.trim()) {
+                try {
+                    requestData.custom_messages = JSON.parse(customMessagesText);
+                } catch(error) {
+                    alert('自定义消息格式错误: ' + error.message);
+                    return;
+                }
+            }
+            
+            fetch('/api/generate-link', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData),
+                credentials: 'same-origin'  // 发送cookies以保持会话
+            })
+            .then(handleFetchResponse)  // 使用全局错误处理
+            .then(data => {
+                // 生成完整URL，包括主机名
+                const fullUrl = window.location.origin + data.link_url;
+                document.getElementById('generatedLink').value = fullUrl;
+                document.getElementById('linkId').textContent = data.temp_id;
+                document.getElementById('linkExpiry').textContent = data.expiry;
+                document.getElementById('linkResult').style.display = 'block';
+                
+                // 更新活动项目列表
+                updateActiveItems();
+            })
+            .catch(error => {
+                alert('生成链接失败: ' + error.message);
+            });
+        });
+        
+        // 复制链接按钮
+        document.getElementById('copyLink').addEventListener('click', function() {
+            const linkText = document.getElementById('generatedLink').value;
+            copyToClipboard(
+                linkText,
+                () => {
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+                },
+                () => {
+                    alert('复制失败，请手动复制: ' + linkText);
+                }
+            );
+        });
+        
+        // 复制ID按钮
+        document.getElementById('copyId').addEventListener('click', function() {
+            const idText = document.getElementById('linkId').textContent;
+            copyToClipboard(
+                idText,
+                () => {
+                    this.innerHTML = '<i class="fas fa-check me-1"></i>已复制';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy me-1"></i>复制ID';
+                    }, 2000);
+                },
+                () => {
+                    alert('复制失败，请手动复制: ' + idText);
+                }
+            );
+        });
+        
+        // 模拟上传表单提交
+        document.getElementById('mockUploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const tempId = document.getElementById('tempId').value;
+            const mockFilename = document.getElementById('mockFilename').value;
+            
+            if (!tempId) {
+                alert('请输入临时链接ID');
+                return;
+            }const formData = new FormData();
+            formData.append('temp_id', tempId);
+            formData.append('filename', mockFilename);
+            
+            fetch('/api/admin/mock-upload', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                if (data.document_id) {document.getElementById('mockDocId').textContent = data.document_id;
+                    // 生成查看处理页面的URL
+                    const processUrl = `/?id=${tempId}&doc_id=${data.document_id}`;
+                    document.getElementById('processPageLink').href = processUrl;
+                    document.getElementById('mockUploadResult').style.display = 'block';
+                    // 自动填充工作流程控制表单和结果上传表单
+                    document.getElementById('docId').value = data.document_id;
+                    document.getElementById('resultDocId').value = data.document_id;
+                    
+                    // 更新活动项目列表
+                    updateActiveItems();
+                } else {
+                    alert(data.message || '模拟上传失败');
+                }
+            })
+            .catch(error => {
+                alert('模拟上传失败: ' + error.message);
+            });
+        });
+        
+        // 复制文档ID按钮
+        document.getElementById('copyDocId').addEventListener('click', function() {
+            const idText = document.getElementById('mockDocId').textContent;
+            copyToClipboard(
+                idText,
+                () => {
+                    this.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy"></i> 复制ID';
+                    }, 2000);
+                },
+                () => {
+                    alert('复制失败，请手动复制: ' + idText);
+                }
+            );
+        });
+        
+        // 查询工作流程按钮
+        document.getElementById('queryWorkflowBtn').addEventListener('click', function() {
+            const docId = document.getElementById('docId').value.trim(); // 使用trim()去除空白字符
+            if (!docId) {
+                alert('请输入文档ID');
+                return;
+            }
+            
+            console.log('查询工作流程状态, 文档ID:', docId);fetch(`/api/workflow-status/${docId}`, {
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                console.log('工作流程查询成功:', data);
+                // 将查询到的文档添加到docsList中
+                if (!docsList.some(doc => doc.document_id === data.document_id)) {
+                    docsList.push(data);
+                }const statusDiv = document.getElementById('workflowStatusDetails');
+                let statusHtml = `
+                    <p>文档状态: <strong>${data.request_status}</strong></p>
+                    <p>剩余时间: <strong>${data.total_time_remaining}</strong></p>
+                    <p>当前步骤: <strong>${data.current_step_index >=0 ? data.steps[data.current_step_index].step_name : '未开始'}</strong></p>
+                    <h6>步骤详情:</h6>
+                    <ul class="list-group">
+                `;
+                
+                data.steps.forEach((step, index) => {
+                    const statusClass = step.step_status === 'completed' ? 'bg-success' : step.step_status === 'processing' ? 'bg-warning' : 'bg-secondary';
+                    statusHtml += `
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${step.step_name}<div><span class="badge ${statusClass}">${step.step_status}</span><span class="ms-2">${step.expert.progress}%</span>
+                            </div>
+                        </li>
+                    `;
+                });
+                
+                statusHtml += `</ul>`;
+                statusDiv.innerHTML = statusHtml;document.getElementById('workflowStatusResult').style.display = 'block';
+                
+                // 自动填充上传结果文件表单中的文档ID
+                document.getElementById('resultDocId').value = data.document_id;
+            })
+            .catch(error => {
+                console.error('工作流程查询失败:', error);
+                alert('查询失败: ' + error.message);
+            });
+        });// 加速流程按钮
+        document.getElementById('speedUpBtn').addEventListener('click', function() {
+            const docId = document.getElementById('docId').value.trim(); // 使用trim()去除空白字符
+            if (!docId) {
+                alert('请输入文档ID');
+                return;
+            }console.log('加速工作流程, 文档ID:', docId);
+            
+            const formData = new FormData();
+            formData.append('doc_id', docId);
+            formData.append('action', 'speed_up');
+            
+            fetch('/api/admin/workflow-control', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                console.log('操作成功:', data);
+                document.getElementById('controlMessage').textContent = data.message;
+                document.getElementById('controlResult').style.display = 'block';
+                // 延迟更新活动项目列表和刷新工作流程状态
+                setTimeout(() => {
+                    updateActiveItems();
+                    document.getElementById('queryWorkflowBtn').click(); // 自动刷新工作流程状态
+                }, 1000);
+            })
+            .catch(error => {
+                console.error('操作失败:', error);
+                alert('操作失败: ' + error.message);
+            });
+        });
+
+        // 完成当前步骤按钮
+        document.getElementById('completeStepBtn').addEventListener('click', function() {
+            const docId = document.getElementById('docId').value.trim(); // 使用trim()去除空白字符
+            if (!docId) {
+                alert('请输入文档ID');
+                return;
+            }
+            
+            console.log('完成当前步骤, 文档ID:', docId);
+            
+            const formData = new FormData();
+            formData.append('doc_id', docId);
+            formData.append('action', 'complete');
+            fetch('/api/admin/workflow-control', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                console.log('操作成功:', data);
+                document.getElementById('controlMessage').textContent = data.message;
+                document.getElementById('controlResult').style.display = 'block';
+                
+                // 延迟更新活动项目列表和刷新工作流程状态
+                setTimeout(() => {
+                    updateActiveItems();document.getElementById('queryWorkflowBtn').click(); // 自动刷新工作流程状态
+                }, 1000);
+            })
+            .catch(error => {
+                console.error('操作失败:', error);
+                alert('操作失败: ' + error.message);
+            });
+        });
+
+        // 更新消息按钮
+        document.getElementById('updateMessageBtn').addEventListener('click', function() {
+            const docId = document.getElementById('docId').value.trim(); // 使用trim()去除空白字符
+            const stepIndex = document.getElementById('stepIndex').value;
+            const messageIndex = document.getElementById('messageIndex').value;
+            const customMessage = document.getElementById('customMessage').value;
+            
+            if (!docId) {
+                alert('请输入文档ID');
+                return;
+            }
+            
+            if (!customMessage.trim()) {
+                alert('请输入消息内容');
+                return;
+            }
+            
+            console.log('更新消息, 文档ID:', docId, '步骤索引:', stepIndex, '消息索引:', messageIndex);const formData = new FormData();
+            formData.append('doc_id', docId);
+            formData.append('action', 'update_message');
+            formData.append('step_index', stepIndex);
+            formData.append('message_index', messageIndex);
+            formData.append('message', customMessage);fetch('/api/admin/workflow-control', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                console.log('操作成功:', data);
+                document.getElementById('controlMessage').textContent = data.message;
+                document.getElementById('controlResult').style.display = 'block';
+                
+                // 清空消息输入框
+                document.getElementById('customMessage').value = '';
+                
+                // 刷新工作流程状态
+                setTimeout(() => {document.getElementById('queryWorkflowBtn').click();
+                }, 1000);
+            })
+            .catch(error => {
+                console.error('操作失败:', error);
+                alert('操作失败: ' + error.message);
+            });
+        });
+
+        // 上传结果文件表单
+        document.getElementById('uploadResultForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const docId = document.getElementById('resultDocId').value.trim(); // 添加trim()去除空白字符
+            const fileInput = document.getElementById('resultFile');
+            
+            if (!docId) {
+                alert('请输入文档ID');
+                return;
+            }
+            
+            if (!fileInput.files[0]) {
+                alert('请选择要上传的结果文件');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('doc_id', docId);
+            formData.append('file', fileInput.files[0]);
+            
+            // 显示上传中消息
+            const messageDiv = document.getElementById('uploadResultMessage');
+            messageDiv.textContent = '正在上传结果文件...';
+            messageDiv.style.display = 'block';
+            messageDiv.className = 'alert alert-info mt-3';
+            
+            // 添加调试信息
+            console.log('正在上传结果文件，文档ID:', docId);
+            
+            fetch('/api/admin/upload-result', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                console.log('上传成功:', data);
+                messageDiv.textContent = data.message;
+                messageDiv.className = 'alert alert-success mt-3';
+                // 清空表单
+                document.getElementById('resultDocId').value = '';
+                document.getElementById('resultFile').value = '';
+                
+                // 如果有下载链接，显示下载按钮
+                if (data.download_url) {
+                    messageDiv.innerHTML += `<br><a href="${data.download_url}" class="btn btn-primary mt-2">下载结果文件</a>`;
+                }
+                
+                // 更新活动项目列表和刷新工作流程状态
+                updateActiveItems();
+                if (document.getElementById('docId').value) {document.getElementById('queryWorkflowBtn').click();
+                }
+            })
+            .catch(error => {
+                console.error('上传错误:', error);
+                messageDiv.textContent = '上传失败: ' + error.message;
+                messageDiv.className = 'alert alert-danger mt-3';
+            });
+        });
+
+        // 批量删除旧文档表单
+        document.getElementById('deleteOldDocsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const days = document.getElementById('deleteDays').value;
+            
+            if (!days || parseInt(days) <= 0) {
+                alert('请输入有效的天数');
+                return;
+            }
+            
+            if (!confirm(`确定要删除 ${days} 天前的所有文档和链接吗？此操作不可恢复！`)) {
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('days', days);
+            
+            const messageDiv = document.getElementById('deleteOldDocsMessage');
+            messageDiv.textContent = '正在删除...';
+            messageDiv.className = 'alert alert-info mt-3';
+            messageDiv.style.display = 'block';
+            
+            fetch('/api/admin/delete-old-documents', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                messageDiv.textContent = data.message;
+                messageDiv.className = 'alert alert-success mt-3';
+                
+                // 更新活动项目列表
+                updateActiveItems();
+            })
+            .catch(error => {
+                messageDiv.textContent = '删除失败: ' + error.message;
+                messageDiv.className = 'alert alert-danger mt-3';
+            });
+        });
+
+        // 更新活动项目列表（合并链接和文档）
+        function updateActiveItems() {
+            // 获取活动链接
+            fetch('/api/admin/active-links', {
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(linkData => {
+                // 获取活动文档
+                return fetch('/api/admin/active-documents', {
+                    credentials: 'same-origin'
+                })
+                .then(handleFetchResponse)
+                .then(docData => {
+                    return { links: linkData.links, documents: docData.documents };
+                });
+            })
+            .then(data => {
+                const itemsList = document.getElementById('activeItems');
+                itemsList.innerHTML = '';
+                
+                // 创建映射表，将链接ID与文档关联
+                const linkToDocMap = {};
+                if (data.documents && data.documents.length > 0) {
+                    data.documents.forEach(doc => {
+                        if (doc.temp_id) {
+                            linkToDocMap[doc.temp_id] = doc;
+                        }
+                    });
+                }
+                
+                // 创建合并的项目列表，包含所有链接和没有关联链接的文档
+                const allItems = [];
+                
+                // 添加所有链接及其关联文档
+                if (data.links && data.links.length > 0) {
+                    data.links.forEach(link => {
+                        const item = {
+                            id: link.temp_id,
+                            type: 'link',
+                            link: link,
+                            document: linkToDocMap[link.temp_id] || null,
+                            created_at: link.created_at
+                        };
+                        allItems.push(item);
+                    });
+                }
+                
+                // 添加没有关联链接的文档
+                if (data.documents && data.documents.length > 0) {
+                    const orphanDocs = data.documents.filter(doc => !doc.temp_id || !data.links.some(link => link.temp_id === doc.temp_id));
+                    orphanDocs.forEach(doc => {
+                        const item = {
+                            id: doc.document_id,
+                            type: 'document',
+                            document: doc,
+                            created_at: doc.created_at
+                        };
+                        allItems.push(item);
+                    });
+                }
+                
+                // 按创建时间排序，最新的在前面
+                allItems.sort((a, b) => {
+                    const dateA = new Date(a.type === 'link' ? a.link.created_at : a.document.created_at);
+                    const dateB = new Date(b.type === 'link' ? b.link.created_at : b.document.created_at);
+                    return dateB - dateA;
+                });
+                
+                // 渲染所有项目
+                if (allItems.length > 0) {
+                    allItems.forEach(item => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        
+                        if (item.type === 'link' && item.document) {
+                            // 有关联文档的链接
+                            const doc = item.document;
+                            const link = item.link;
+                            const statusClass = doc.request_status === 'completed' ? 'bg-success' : 'bg-warning';
+                            
+                            li.innerHTML = `
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2 fw-bold">${link.temp_id}</span>
+                                            <span class="badge badge-copy bg-secondary" data-id="${link.temp_id}"><i class="fas fa-copy"></i></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="badge bg-primary me-1">${link.workflow_type}</span>
+                                            <span class="badge ${statusClass}">${doc.request_status}</span>
+                                            ${isExpired(link.expiry) ? '<span class="badge bg-danger">已过期</span>' : ''}
+                                        </div>
+                                        <small class="d-block mt-1"><strong>文档ID:</strong> ${doc.document_id}</small>
+                                        <small class="d-block mt-1"><strong>上传文件:</strong> ${doc.original_filename || '未知'}</small>
+                                        ${doc.result_filename ? 
+                                            `<small class="d-block"><strong>结果文件:</strong> ${doc.result_filename}</small>` : ''}
+                                        <small class="d-block text-muted">剩余时间: ${doc.total_time_remaining || '未知'}</small>
+                                        <small class="d-block text-muted">链接到期: ${link.expiry}</small>
+                                        <small class="d-block text-muted">创建时间: ${link.created_at}</small>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <button class="btn btn-sm btn-outline-primary mb-1 fill-id-btn" data-id="${doc.document_id}">
+                                            <i class="fas fa-tasks"></i> 管理
+                                        </button>
+                                        ${isExpired(link.expiry) ? 
+                                            `<button class="btn btn-sm btn-outline-warning mb-1 extend-link-btn" data-id="${link.temp_id}">
+                                                <i class="fas fa-clock"></i> 延长有效期
+                                            </button>` : ''}
+                                        <a href="/?id=${link.temp_id}${doc.document_id ? '&doc_id='+doc.document_id : ''}" 
+                                           class="btn btn-sm btn-outline-info mb-1" target="_blank">
+                                            <i class="fas fa-external-link-alt"></i> 查看页面
+                                        </a>
+                                        ${doc.download_url ? 
+                                            `<a href="${doc.download_url}" class="btn btn-sm btn-outline-success mb-1">
+                                                <i class="fas fa-download"></i> 下载结果
+                                            </a>` : ''}
+                                        <button class="btn btn-sm btn-outline-danger delete-doc-btn" data-id="${doc.document_id}">
+                                            <i class="fas fa-trash-alt"></i> 删除
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        } else if (item.type === 'link') {
+                            // 无关联文档的链接
+                            const link = item.link;
+                            li.innerHTML = `
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2 fw-bold">${link.temp_id}</span>
+                                            <span class="badge badge-copy bg-secondary" data-id="${link.temp_id}"><i class="fas fa-copy"></i></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="badge bg-primary">${link.workflow_type}</span>
+                                            <span class="badge bg-info">未上传文件</span>
+                                        </div>
+                                        <small class="d-block text-muted">链接到期: ${link.expiry}</small>
+                                        <small class="d-block text-muted">创建时间: ${link.created_at}</small>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <button class="btn btn-sm btn-outline-primary mb-1 fill-temp-id-btn" data-id="${link.temp_id}">
+                                            <i class="fas fa-upload"></i> 上传
+                                        </button>
+                                        <a href="/?id=${link.temp_id}" class="btn btn-sm btn-outline-info mb-1" target="_blank">
+                                            <i class="fas fa-external-link-alt"></i> 查看页面
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger delete-link-btn" data-id="${link.temp_id}">
+                                            <i class="fas fa-trash-alt"></i> 删除
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            // 无关联链接的文档
+                            const doc = item.document;
+                        const statusClass = doc.request_status === 'completed' ? 'bg-success' : 'bg-warning';
+                
+                        li.innerHTML = `
+                                <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2 fw-bold">${doc.document_id}</span>
+                                            <span class="badge badge-copy bg-secondary" data-id="${doc.document_id}"><i class="fas fa-copy"></i></span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span class="badge ${statusClass}">${doc.request_status}</span>
+                                        </div>
+                                        <small class="d-block mt-1"><strong>上传文件:</strong> ${doc.original_filename || '未知'}</small>
+                                        ${doc.result_filename ? 
+                                            `<small class="d-block"><strong>结果文件:</strong> ${doc.result_filename}</small>` : ''}
+                                        <small class="d-block text-muted">剩余时间: ${doc.total_time_remaining || '未知'}</small>
+                                        <small class="d-block text-muted">创建时间: ${doc.created_at}</small>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <button class="btn btn-sm btn-outline-primary mb-1 fill-id-btn" data-id="${doc.document_id}">
+                                            <i class="fas fa-tasks"></i> 管理
+                                        </button>
+                                        <a href="/?doc_id=${doc.document_id}" class="btn btn-sm btn-outline-info mb-1" target="_blank">
+                                            <i class="fas fa-external-link-alt"></i> 查看页面
+                                        </a>
+                                        ${doc.download_url ? 
+                                            `<a href="${doc.download_url}" class="btn btn-sm btn-outline-success mb-1">
+                                                <i class="fas fa-download"></i> 下载结果
+                                            </a>` : ''}
+                                        <button class="btn btn-sm btn-outline-danger delete-doc-btn" data-id="${doc.document_id}">
+                                            <i class="fas fa-trash-alt"></i> 删除
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        
+                        itemsList.appendChild(li);
+                    });
+                } else {
+                    itemsList.innerHTML = '<li class="list-group-item text-muted">暂无活动项目</li>';
+                }
+                
+                // 添加复制按钮事件
+                document.querySelectorAll('.badge-copy').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                            const idToCopy = this.getAttribute('data-id');
+                            copyToClipboard(
+                                idToCopy,
+                            () => {
+                                this.innerHTML = '<i class="fas fa-check"></i>';
+                                    setTimeout(() => {
+                                        this.innerHTML = '<i class="fas fa-copy"></i>';
+                                    }, 2000);
+                                },
+                                () => {
+                                    alert('复制失败，请手动复制: ' + idToCopy);
+                                }
+                            );
+                    });
+                });
+                
+                // 添加填充ID按钮事件
+                document.querySelectorAll('.fill-id-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const linkId = this.getAttribute('data-id');
+                        const item = allItems.find(item => 
+                            (item.type === 'link' && item.link.temp_id === linkId) || 
+                            (item.type === 'document' && item.document.document_id === linkId)
+                        );
+                        
+                        // 如果是已上传文档的链接，使用文档ID
+                        if (item && item.type === 'link' && item.document) {
+                            const docId = item.document.document_id;
+                            document.getElementById('docId').value = docId;
+                            document.getElementById('resultDocId').value = docId;
+                        } else {
+                            // 否则使用链接ID或文档ID
+                            document.getElementById('docId').value = linkId;
+                            document.getElementById('resultDocId').value = linkId;
+                        }
+                        
+                        document.getElementById('queryWorkflowBtn').click(); // 自动查询
+                    });
+                });
+                
+                // 添加填充临时ID按钮事件
+                document.querySelectorAll('.fill-temp-id-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        document.getElementById('tempId').value = id;
+                    });
+                });
+
+                // 添加删除文档按钮事件
+                document.querySelectorAll('.delete-doc-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const docId = this.getAttribute('data-id');
+                        if (confirm(`确定要删除文档 ${docId} 吗？此操作不可恢复！`)) {
+                            deleteDocument(docId);
+                        }
+                    });
+                });
+                
+                // 添加删除链接按钮事件（对于没有关联文档的链接）
+                document.querySelectorAll('.delete-link-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const linkId = this.getAttribute('data-id');
+                        if (confirm(`确定要删除链接 ${linkId} 吗？此操作不可恢复！`)) {
+                            // 创建一个虚拟文档ID来删除链接
+                            deleteDocument(linkId);
+                        }
+                    });
+                });
+
+                // 添加延长有效期按钮事件
+                document.querySelectorAll('.extend-link-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const linkId = this.getAttribute('data-id');
+                        const hours = prompt("请输入要延长的小时数", "24");
+                        if (hours && !isNaN(hours)) {
+                            extendLinkExpiry(linkId, parseInt(hours));
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('获取活动项目失败:', error);
+                if (error.message.includes('会话已过期')) {
+                    // 如果是会话过期，不显示提示，因为已经重定向到登录页面
+                    return;
+                }
+                alert('获取活动项目失败: ' + error.message);
+            });
+        }
+        
+        // 删除文档函数
+        function deleteDocument(docId) {
+            const formData = new FormData();
+            formData.append('doc_id', docId);
+            
+            fetch('/api/admin/delete-document', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                alert(data.message);
+                // 更新活动项目列表
+                updateActiveItems();
+            })
+            .catch(error => {
+                alert('删除失败: ' + error.message);
+            });
+        }
+        
+        // 延长链接有效期函数
+        function extendLinkExpiry(linkId, hours) {
+            const formData = new FormData();
+            formData.append('temp_id', linkId);
+            formData.append('hours', hours);
+            
+            fetch('/api/admin/extend-link', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(handleFetchResponse)
+            .then(data => {
+                alert(data.message);
+                // 更新活动项目列表
+                updateActiveItems();
+            })
+            .catch(error => {
+                alert('延长有效期失败: ' + error.message);
+            });
+        }
+        
+        // 初始化加载
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载活动项目
+            updateActiveItems();
+            
+            // 设置定时刷新（每30秒）
+            setInterval(() => {
+                updateActiveItems();
+            }, 30000);
+        });
+    </script>
+</body>
+</html>
